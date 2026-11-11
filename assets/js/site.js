@@ -182,7 +182,9 @@
     $("#next").disabled = S.step === STEPS.length - 1;
     $("#scribe-label").textContent = id === "vote" ? "What each person sees" : "What you see";
     $("#scribe-sub").textContent = id === "vote" ? "Their phone" : "Scribe view";
-    runEl.querySelector('[aria-selected="true"]')?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: reduced ? "auto" : "smooth" });
+    // Keep the current tab in view inside the tab strip only. (scrollIntoView would also scroll the page.)
+    const tab = runEl.querySelector('[aria-selected="true"]');
+    if (tab && runEl.scrollWidth > runEl.clientWidth) runEl.scrollTo({ left: tab.offsetLeft - (runEl.clientWidth - tab.offsetWidth) / 2, behavior: reduced ? "auto" : "smooth" });
   }
   function theme() {
     const c = CLIENTS[S.client];
@@ -322,7 +324,7 @@
   if (!reduced) {
     const stage = $("#stage"), ghost = $("#ghost");
     const LINES = [["Copying data between systems", 5, 4], ["Month-end reconciliation by hand", 3, 6]];
-    let auto = false, started = false;
+    let auto = false, started = false, visible = false;
     const wait = (ms) => new Promise((r) => setTimeout(r, ms));
     const moveTo = (el, fx = .5, fy = .6) => {
       const a = el.getBoundingClientRect(), b = stage.getBoundingClientRect();
@@ -341,6 +343,8 @@
       const ok = () => auto && STEPS[S.step].id === "capture";
       await wait(1300);
       for (let n = 0; ok(); n++) {
+        while (ok() && !visible) await wait(400); // only plays while the demo is on screen
+        if (!ok()) break;
         const [text, people, hrs] = LINES[n % LINES.length];
         let input = $('#f-add [name="text"]');
         moveTo(input, .12, .55); await wait(850); if (!ok()) break;
@@ -364,7 +368,7 @@
       halt();
     };
     ["pointerdown", "keydown", "wheel", "touchstart"].forEach((t) => stage.addEventListener(t, (e) => { if (e.isTrusted && t !== "wheel") halt(); }, { passive: true }));
-    new IntersectionObserver((es, io) => { if (es[0].isIntersecting && !started) { started = true; io.disconnect(); play(); } }, { threshold: .35 }).observe(stage);
+    new IntersectionObserver((es) => { visible = es[0].isIntersecting; if (visible && !started) { started = true; play(); } }, { threshold: .35 }).observe(stage);
   }
 
   /* ───────────── Slide-type minis ───────────── */
