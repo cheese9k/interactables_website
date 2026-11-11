@@ -79,16 +79,18 @@
       </div>
 
       <div class="stage-main">
+        <div class="sync" id="sync" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>live</span></div>
         <div class="pane pane-screen">
-          <div class="pane-label"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>Room screen<span class="pane-note" id="screen-note"></span></div>
+          <div class="pane-label"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><strong id="screen-label">What your client sees</strong><span class="pane-sub" id="screen-sub">Room screen</span><span class="pane-note" id="screen-note" aria-hidden="true"></span></div>
           <div class="slide" id="slide" data-look="classic" aria-live="polite"></div>
         </div>
         <div class="pane pane-scribe">
-          <div class="pane-label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg><span id="scribe-label">Scribe view</span><span class="you">that's you</span></div>
+          <div class="pane-label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg><strong id="scribe-label">What you see</strong><span class="pane-sub" id="scribe-sub">Scribe view</span></div>
           <div class="scribe" id="scribe"></div>
         </div>
       </div>
 
+      <svg class="ghost" id="ghost" viewBox="0 0 28 30" aria-hidden="true"><path d="M4 3l3.6 21.5 5.4-6.4 5.2 8.2 4-2.5-5.2-8.1 8-1.6z"/></svg>
       <div class="stage-foot">
         <p class="flow" id="flow"></p>
         <div class="stage-nav">
@@ -97,7 +99,7 @@
         </div>
       </div>
     </div>
-    <p class="stage-caption">A real session, running in your browser. Nothing you type here leaves this page.</p>
+    <p class="stage-caption">Edit on the right and it changes on the left, the way it does on your client's screen. Nothing you type here leaves this page.</p>
   </div>
 </section>
 

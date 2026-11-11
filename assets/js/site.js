@@ -180,8 +180,8 @@
     flowEl.innerHTML = FLOWS[id]();
     $("#prev").disabled = S.step === 0;
     $("#next").disabled = S.step === STEPS.length - 1;
-    $("#scribe-label").textContent = id === "vote" ? "A phone in the room" : "Scribe view";
-    $("#screen-note").textContent = id === "vote" ? "● Voting open" : "";
+    $("#scribe-label").textContent = id === "vote" ? "What each person sees" : "What you see";
+    $("#scribe-sub").textContent = id === "vote" ? "Their phone" : "Scribe view";
     runEl.querySelector('[aria-selected="true"]')?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: reduced ? "auto" : "smooth" });
   }
   function theme() {
@@ -191,6 +191,27 @@
     $$("#clients button").forEach((b, i) => b.setAttribute("aria-checked", String(i === S.client)));
   }
   function render() { renderChrome(); renderSlide(); renderScribe(); }
+
+  let pingT;
+  /** Shows that an edit has just reached the client's screen. */
+  function ping() {
+    const sync = $("#sync"), note = $("#screen-note");
+    note.textContent = "● Updated just now"; note.classList.add("on");
+    sync.classList.remove("ping"); void sync.offsetWidth; sync.classList.add("ping");
+    clearTimeout(pingT); pingT = setTimeout(() => { sync.classList.remove("ping"); note.classList.remove("on"); }, 1600);
+  }
+  function addRow(text, people, hrs) {
+    if (S.rows.length >= MAX_ROWS) return null;
+    const r = row(text, Math.min(people, 500), Math.min(hrs, 40));
+    S.rows.push(r); S.newRow = r.id; render(); ping();
+    return r;
+  }
+  function removeRow(id) {
+    S.rows = S.rows.filter((r) => r.id !== id);
+    S.simmed -= S.votes[id] || 0; delete S.votes[id];
+    if (S.mine === id) S.mine = null;
+    S.newRow = null; render(); ping();
+  }
 
   function stopSim() { timers.forEach(clearTimeout); timers = []; }
   /** Simulated phones: votes arrive over a few seconds, leaning towards the rows that cost the most time. */
@@ -254,30 +275,24 @@
     const f = new FormData(e.target), text = String(f.get("text")).trim();
     const people = Math.round(+f.get("people")), hrs = +f.get("hrs");
     if (!text || !(people > 0) || !(hrs > 0)) return;
-    const r = row(text, Math.min(people, 500), Math.min(hrs, 40));
-    S.rows.push(r); S.newRow = r.id;
-    render();
+    addRow(text, people, hrs);
     $('#f-add [name="text"]')?.focus();
   });
   scribeEl.addEventListener("click", (e) => {
     const t = e.target.closest("button"); if (!t) return;
     const d = t.dataset;
-    if (d.del) {
-      S.rows = S.rows.filter((r) => r.id !== d.del);
-      S.simmed -= S.votes[d.del] || 0; delete S.votes[d.del];
-      if (S.mine === d.del) S.mine = null;
-      S.newRow = null; render();
-    } else if (d.vote) {
+    if (d.del) removeRow(d.del);
+    else if (d.vote) {
       S.mine = d.vote;
       $$("[data-vote]", scribeEl).forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.vote === S.mine)));
       $(".phone-foot", scribeEl).textContent = "Vote counted. You can change it, but not vote twice.";
-      updateBars();
-    } else if (d.rank) { S.rankBy = d.rank; renderSlide(); renderScribe(); }
-    else if (d.count) { S.count = +d.count; renderSlide(); renderScribe(); }
+      updateBars(); ping();
+    } else if (d.rank) { S.rankBy = d.rank; renderSlide(); renderScribe(); ping(); }
+    else if (d.count) { S.count = +d.count; renderSlide(); renderScribe(); ping(); }
     else if (d.decide !== undefined) {
       S.decision = S.decision === +d.decide ? null : +d.decide;
       $$("[data-decide]", scribeEl).forEach((b) => b.setAttribute("aria-pressed", String(+b.dataset.decide === S.decision)));
-      renderSlide();
+      renderSlide(); ping();
     } else if ("again" in d) { stopSim(); uid = 0; const keep = { client: S.client, look: S.look }; S = Object.assign(fresh(), keep); render(); }
   });
   scribeEl.addEventListener("input", (e) => {
@@ -285,20 +300,71 @@
     if (t.id === "rate") { S.rate = +t.value; $("#rate-val").textContent = `£${S.rate}`; renderSlide(); }
     if (t.id === "owner") { S.owner = t.value.trim(); renderSlide(); }
     if (t.id === "when") { S.when = t.value.trim(); renderSlide(); }
+    if (["rate", "owner", "when"].includes(t.id)) ping();
   });
 
   theme(); render();
 
   /* ───────────── Click sparks (the logo's cursor) ───────────── */
+  function spark(x, y) {
+    const s = document.createElement("span");
+    s.className = "spark"; s.style.left = `${x}px`; s.style.top = `${y}px`;
+    s.innerHTML = '<i style="--r:-28deg"></i><i style="--r:12deg"></i><i style="--r:52deg"></i>';
+    document.body.append(s);
+    setTimeout(() => s.remove(), 500);
+  }
   if (!reduced) {
-    document.addEventListener("pointerdown", (e) => {
-      if (!e.target.closest("button, .btn, select, [data-spark]")) return;
-      const s = document.createElement("span");
-      s.className = "spark"; s.style.left = `${e.clientX}px`; s.style.top = `${e.clientY}px`;
-      s.innerHTML = '<i style="--r:-28deg"></i><i style="--r:12deg"></i><i style="--r:52deg"></i>';
-      document.body.append(s);
-      setTimeout(() => s.remove(), 500);
-    });
+    document.addEventListener("pointerdown", (e) => { if (e.target.closest("button, .btn, select, [data-spark]")) spark(e.clientX, e.clientY); });
+  }
+
+  /* ───────────── Autoplay: the demo edits itself until the visitor takes over ─────────────
+     A cursor types a row into the scribe view and adds it; it appears on the client's screen. Then it takes it off again. */
+  if (!reduced) {
+    const stage = $("#stage"), ghost = $("#ghost");
+    const LINES = [["Copying data between systems", 5, 4], ["Month-end reconciliation by hand", 3, 6]];
+    let auto = false, started = false;
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    const moveTo = (el, fx = .5, fy = .6) => {
+      const a = el.getBoundingClientRect(), b = stage.getBoundingClientRect();
+      ghost.style.transform = `translate(${a.left - b.left + a.width * fx}px, ${a.top - b.top + a.height * fy}px)`;
+      ghost.classList.add("on");
+    };
+    const halt = () => {
+      if (!auto) return;
+      auto = false; ghost.classList.remove("on");
+      const input = $('#f-add [name="text"]');
+      if (input) { input.classList.remove("typing"); input.value = ""; }
+      $("#f-add .btn-add")?.classList.remove("pressed");
+    };
+    const play = async () => {
+      auto = true;
+      const ok = () => auto && STEPS[S.step].id === "capture";
+      await wait(1300);
+      for (let n = 0; ok(); n++) {
+        const [text, people, hrs] = LINES[n % LINES.length];
+        let input = $('#f-add [name="text"]');
+        moveTo(input, .12, .55); await wait(850); if (!ok()) break;
+        input.classList.add("typing");
+        for (const ch of text) { input.value += ch; await wait(38 + Math.random() * 40); if (!ok()) break; }
+        if (!ok()) break;
+        $('#f-add [name="people"]').value = people; $('#f-add [name="hrs"]').value = hrs;
+        await wait(350); if (!ok()) break;
+        const btn = $("#f-add .btn-add");
+        moveTo(btn, .5, .5); await wait(850); if (!ok()) break;
+        btn.classList.add("pressed");
+        const b = btn.getBoundingClientRect(); spark(b.left + b.width / 2, b.top + b.height / 2);
+        await wait(160); if (!ok()) break;
+        const r = addRow(text, people, hrs);
+        await wait(3400); if (!ok() || !r) break;
+        const del = $(`[data-del="${r.id}"]`);
+        if (del) { moveTo(del, .5, .5); await wait(850); if (!ok()) break; const d = del.getBoundingClientRect(); spark(d.left + d.width / 2, d.top + d.height / 2); }
+        removeRow(r.id);
+        await wait(1500);
+      }
+      halt();
+    };
+    ["pointerdown", "keydown", "wheel", "touchstart"].forEach((t) => stage.addEventListener(t, (e) => { if (e.isTrusted && t !== "wheel") halt(); }, { passive: true }));
+    new IntersectionObserver((es, io) => { if (es[0].isIntersecting && !started) { started = true; io.disconnect(); play(); } }, { threshold: .35 }).observe(stage);
   }
 
   /* ───────────── Slide-type minis ───────────── */
