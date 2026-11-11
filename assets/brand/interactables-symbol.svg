@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 325" width="640" height="650"><defs>
+ <linearGradient id="orange" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffcc51"/><stop offset=".45" stop-color="#ff8739"/><stop offset="1" stop-color="#ff4b81"/></linearGradient>
+ <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#38e7ec"/><stop offset=".5" stop-color="#0cb9ec"/><stop offset="1" stop-color="#3659f9"/></linearGradient>
+ <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#703dff"/><stop offset=".48" stop-color="#8b32ef"/><stop offset="1" stop-color="#fe62ad"/></linearGradient>
+ <linearGradient id="background" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#5120e8"/><stop offset=".35" stop-color="#5532fb"/><stop offset=".63" stop-color="#06cfe2"/><stop offset=".82" stop-color="#f66383"/><stop offset="1" stop-color="#ffa13e"/></linearGradient>
+ <linearGradient id="orbit" x1="0" y1=".7" x2="1" y2="0"><stop stop-color="#00e5e2"/><stop offset=".53" stop-color="#53b6ff"/><stop offset="1" stop-color="#ff9c60"/></linearGradient>
+ <linearGradient id="hotspot" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dca9ff" stop-opacity=".9"/><stop offset="1" stop-color="#9742de" stop-opacity=".5"/></linearGradient>
+ </defs><g transform="translate(5 1)"><g id="symbol">
+ <!-- rear slide --> <rect x="59" y="31" width="209" height="195" rx="33" transform="rotate(-13 163.5 128.5)" fill="url(#orange)"/>
+ <!-- middle slide --> <rect x="28" y="69" width="205" height="185" rx="32" transform="rotate(-8 130.5 161.5)" fill="url(#cyan)"/>
+ <!-- orbit surrounds the slides --> <path d="M35 219 C -7 255, 0 271, 58 271 C 123 277, 260 234, 288 170 C 305 130, 297 97, 280 86" stroke="url(#orbit)" stroke-width="12" fill="none" stroke-linecap="round"/>
+ <circle cx="278" cy="84" r="15" fill="url(#orange)" stroke="white" stroke-width="5"/>
+ <!-- main slide --> <rect x="63" y="103" width="224" height="204" rx="32" transform="rotate(-7 175 205)" fill="url(#purple)"/>
+ <path d="M103 146 L202 135" stroke="#f4eaff" stroke-width="16" stroke-linecap="round"/>
+ <path d="M103 182 L158 176" stroke="#e2c5ff" stroke-width="14" stroke-linecap="round"/>
+ <circle cx="210" cy="226" r="47" fill="url(#hotspot)" opacity=".62"/><circle cx="210" cy="226" r="25" fill="#e4b0ff" opacity=".48"/>
+ <path d="M245 187 L248 173 M261 193 L274 179 M272 207 L288 201" stroke="white" stroke-width="8" stroke-linecap="round" fill="none"/>
+ <!-- anchor on orbit --> <circle cx="101" cy="268" r="18" fill="url(#orange)" stroke="white" stroke-width="6"/>
+ <!-- cursor --> <path d="M214 211 Q210 206 211 218 L225 302 Q227 310 234 300 L249 274 L267 298 Q272 305 280 298 Q286 292 280 285 L261 262 L290 254 Q301 249 290 244 Z" fill="#fff" stroke="#29115d" stroke-width="9" stroke-linejoin="round"/>
+ </g></g></svg>

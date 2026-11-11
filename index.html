@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interactables: slides the room fills in</title>
+  <meta name="description" content="Live, white-label sessions your clients take part in. What the room says on one slide becomes the ranking, the numbers and the decision on the next.">
+  <meta name="theme-color" content="#251052">
+  <meta property="og:title" content="Interactables: slides the room fills in">
+  <meta property="og:description" content="Live, white-label sessions your clients take part in. Capture, vote, rank and decide, with the data flowing from slide to slide.">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+  <link rel="preload" href="assets/fonts/manrope-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="logo" href="#top" aria-label="Interactables home">
+      <img class="logo-light" src="assets/brand/interactables-logo.svg" alt="Interactables" width="860" height="205">
+      <img class="logo-dark" src="assets/brand/interactables-logo-white.svg" alt="" width="860" height="205" aria-hidden="true">
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#demo">Live demo</a>
+      <a href="#slides">Live slides</a>
+      <a href="#assistant">Assistant</a>
+      <a href="#meetings">Meetings</a>
+      <a href="#pricing">Pricing</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-quiet" href="https://create.interactables.app/">Sign in</a>
+      <a class="btn btn-primary" href="mailto:hello@interactables.app?subject=Interactables%20access">Request access</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ───────────── Hero + the live demo ───────────── -->
+<section class="hero" id="top">
+  <div class="blob blob-a" aria-hidden="true"></div>
+  <div class="blob blob-b" aria-hidden="true"></div>
+  <div class="wrap hero-copy">
+    <p class="live-pill"><span class="dot"></span>Live sessions, not slide decks</p>
+    <h1>Slides the room <span class="ai-text">fills&nbsp;in.</span></h1>
+    <p class="lede">Interactables are live, white-label sessions your clients take part in. What the room says on one slide becomes the ranking, the numbers and the decision on the next.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary btn-lg" href="mailto:hello@interactables.app?subject=Interactables%20access">Request access</a>
+      <a class="btn btn-ghost btn-lg" href="#demo">Run the demo below <span aria-hidden="true">↓</span></a>
+    </div>
+  </div>
+
+  <div class="wrap stage-wrap" id="demo">
+    <div class="stack stack-orange" aria-hidden="true"></div>
+    <div class="stack stack-cyan" aria-hidden="true"></div>
+
+    <div class="stage" id="stage" tabindex="-1" aria-label="Live demo: a six-slide session you run yourself">
+      <div class="stage-top">
+        <div class="run" role="tablist" aria-label="Run of show" id="run"></div>
+        <div class="stage-tools">
+          <div class="tool">
+            <span class="tool-label" id="lbl-client">Client</span>
+            <div class="swatches" role="radiogroup" aria-labelledby="lbl-client" id="clients"></div>
+          </div>
+          <div class="tool">
+            <label class="tool-label" for="look">Look</label>
+            <select id="look" class="select">
+              <option value="classic">Classic</option>
+              <option value="midnight">Midnight</option>
+              <option value="editorial">Editorial</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-main">
+        <div class="pane pane-screen">
+          <div class="pane-label"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>Room screen<span class="pane-note" id="screen-note"></span></div>
+          <div class="slide" id="slide" data-look="classic" aria-live="polite"></div>
+        </div>
+        <div class="pane pane-scribe">
+          <div class="pane-label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg><span id="scribe-label">Scribe view</span><span class="you">that's you</span></div>
+          <div class="scribe" id="scribe"></div>
+        </div>
+      </div>
+
+      <div class="stage-foot">
+        <p class="flow" id="flow"></p>
+        <div class="stage-nav">
+          <button class="btn-stage" id="prev" type="button"><span aria-hidden="true">←</span> Back</button>
+          <button class="btn-stage btn-stage-go" id="next" type="button">Next slide <span aria-hidden="true">→</span></button>
+        </div>
+      </div>
+    </div>
+    <p class="stage-caption">A real session, running in your browser. Nothing you type here leaves this page.</p>
+  </div>
+</section>
+
+<!-- ───────────── One session, three views ───────────── -->
+<section class="section" id="how">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">How a session runs</p>
+      <h2>One session. Three views of it.</h2>
+      <p class="sub">You just used all three. In the room, they're three different screens, kept in step in about a second.</p>
+    </div>
+    <div class="views">
+      <article class="view reveal">
+        <div class="view-tag tag-purple">The room screen</div>
+        <h3>On the client's big screen</h3>
+        <p>In their colours, with their logo and your mark in the corner. A view-only link opens it on any screen in the building, with no sign-in.</p>
+        <p class="keys" aria-label="Screen keys"><kbd>←</kbd><kbd>→</kbd> move <kbd>B</kbd> blank <kbd>F</kbd> full screen</p>
+      </article>
+      <article class="view reveal">
+        <div class="view-tag tag-cyan">The scribe</div>
+        <h3>Captures what's said</h3>
+        <p>Type what the room tells you into forms built for each slide. Each change is on the screen in about a second. If the Wi-Fi drops, your edits wait and send when it's back.</p>
+        <p class="keys"><span class="chip-offline">Offline · 3 changes waiting</span></p>
+      </article>
+      <article class="view reveal">
+        <div class="view-tag tag-orange">The phones</div>
+        <h3>Everyone gets a say</h3>
+        <p>A QR code on the screen, a vote from every pocket. No app and no account. Votes are anonymous, and the result lands on the screen as it comes in.</p>
+        <p class="keys"><span class="code-chip">K7X2 M4PQ</span> at join.interactables.app</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── Live slide types ───────────── -->
+<section class="section section-tint" id="slides">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Live slides</p>
+      <h2>Eight slide types that pass their data forward.</h2>
+      <p class="sub">A Capture slide collects a list. Everything after it can read that list: rank it, total it, sort it, vote on it. Several of these work. Try them.</p>
+    </div>
+    <div class="types" id="types">
+      <article class="type reveal">
+        <div class="mini" data-mini="capture" aria-hidden="true">
+          <div class="m-row"><i>1</i><b style="width:52%"></b><em>4</em><em>6</em></div>
+          <div class="m-row"><i>2</i><b style="width:40%"></b><em>6</em><em>3</em></div>
+          <div class="m-row m-new"><i>3</i><b style="width:46%"></b><em>2</em><em>5</em></div>
+        </div>
+        <h3>Capture</h3><p>A live table with typed fields and a running total.</p>
+      </article>
+      <article class="type reveal">
+        <div class="mini" data-mini="vote" aria-hidden="true">
+          <div class="m-qr"></div>
+          <div class="m-bars"><span style="--w:82%"></span><span style="--w:46%"></span><span style="--w:64%"></span></div>
+        </div>
+        <h3>Vote</h3><p>Options you write, a captured list's items, or a rating scale.</p>
+      </article>
+      <article class="type reveal">
+        <div class="mini" data-mini="pick" aria-hidden="true">
+          <div class="m-pick on"><i>1</i><b></b><u>Picked</u></div>
+          <div class="m-pick on"><i>2</i><b></b><u>Picked</u></div>
+          <div class="m-pick"><i>3</i><b></b></div>
+        </div>
+        <h3>Pick</h3><p>Ranks a list by a formula and highlights the top few.</p>
+      </article>
+      <article class="type reveal">
+        <div class="mini" data-mini="numbers" aria-hidden="true">
+          <div class="m-tile"><small>Hours a year</small><strong>2,704</strong></div>
+          <div class="m-tile"><small>Cost a year</small><strong>£108k</strong></div>
+        </div>
+        <h3>Big numbers</h3><p>Up to six figures, worked out live from what was captured.</p>
+      </article>
+      <article class="type type-live reveal">
+        <div class="mini" data-mini="board">
+          <div class="m-col" data-col="0"><small>Now</small></div>
+          <div class="m-col" data-col="1"><small>Next</small></div>
+          <div class="m-col" data-col="2"><small>Later</small></div>
+        </div>
+        <h3>Board <span class="try">click a card</span></h3><p>Sorts the list into two to five columns.</p>
+      </article>
+      <article class="type type-live reveal">
+        <div class="mini" data-mini="scale">
+          <div class="m-steps" id="scale-steps"></div>
+        </div>
+        <h3>Scale <span class="try">click a step</span></h3><p>Where the room is today, and where it wants to be.</p>
+      </article>
+      <article class="type type-live reveal">
+        <div class="mini" data-mini="decision">
+          <button type="button" class="m-opt" aria-pressed="false">Fix it now</button>
+          <button type="button" class="m-opt" aria-pressed="true">Pilot first</button>
+          <button type="button" class="m-opt" aria-pressed="false">Park it</button>
+        </div>
+        <h3>Decision <span class="try">choose one</span></h3><p>The option chosen, who owns it and by when.</p>
+      </article>
+      <article class="type type-live reveal">
+        <div class="mini" data-mini="foreach">
+          <div class="m-each">
+            <small id="each-count">1 of 3</small>
+            <strong id="each-name">Rekeying invoices</strong>
+            <span>Hours saved <b id="each-val">180</b></span>
+          </div>
+          <div class="m-each-nav"><button type="button" id="each-prev" aria-label="Previous item">←</button><button type="button" id="each-next" aria-label="Next item">→</button></div>
+        </div>
+        <h3>For each <span class="try">step through</span></h3><p>One slide that works through the picked items, one at a time.</p>
+      </article>
+    </div>
+
+    <div class="formula reveal">
+      <div>
+        <h3>Formulas a facilitator can read</h3>
+        <p>Totals and rankings are plain expressions over the lists you capture. They're checked when you save, and no code runs.</p>
+      </div>
+      <pre aria-label="Example formulas"><code><span class="c-fn">sum</span>(thieves, people * hrsWeek * <span class="c-n">52</span>)
+<span class="c-fn">sum</span>(<span class="c-k">picked</span>.thieves, hoursSaved) * <span class="c-k">rate</span>
+<span class="c-fn">round</span>(<span class="c-fn">avg</span>(thieves, votes), <span class="c-n">1</span>)</code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── White label ───────────── -->
+<section class="section" id="brand">
+  <div class="wrap split">
+    <div class="split-copy reveal">
+      <p class="eyebrow">White label</p>
+      <h2>Their brand on every slide. Yours in the corner.</h2>
+      <p class="sub">One template suits every client: slides take each client's colours and logo, and carry your "delivered by" mark. Change the client and the look in the demo above to see it.</p>
+      <ul class="ticks">
+        <li>Six starting looks, 19 bundled fonts, or upload your own brand font</li>
+        <li>Import a PowerPoint and keep its colours, fonts and background</li>
+        <li>A branded follow-up pack and PDF when the session ends</li>
+      </ul>
+      <a class="link-arrow" href="#demo">Re-theme the demo <span aria-hidden="true">↑</span></a>
+    </div>
+    <div class="brand-fan reveal" aria-hidden="true">
+      <div class="fan-card" style="--p:#0f3d3e;--a:#f2a541"><span></span><b>Quarterly review</b><i></i><i></i><em>Calder &amp; Row</em></div>
+      <div class="fan-card" style="--p:#1d3a8a;--a:#ff6b4a"><span></span><b>Discovery workshop</b><i></i><i></i><em>Northfold</em></div>
+      <div class="fan-card" style="--p:#4a1942;--a:#e3b505"><span></span><b>Boardroom briefing</b><i></i><i></i><em>Juniper Legal</em></div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── Assistant ───────────── -->
+<section class="section section-ink" id="assistant">
+  <div class="wrap split">
+    <div class="split-copy reveal">
+      <p class="eyebrow eyebrow-ai">The assistant</p>
+      <h2>Describe the session. It drafts it. <span class="ai-text-light">You apply.</span></h2>
+      <p class="sub">One sentence becomes slides, live questions, timings that add up and speaker notes. Then edit by chat: "shorter and plainer", "add timings for 90 minutes".</p>
+      <ul class="ticks ticks-light">
+        <li>It proposes, and nothing changes until a person applies it</li>
+        <li>It can only edit the template you have open: no web access, nothing else</li>
+        <li>Every turn is logged: who, when and which tools</li>
+      </ul>
+    </div>
+    <div class="ai-demo reveal" id="ai-demo">
+      <form class="ai-box" id="ai-form">
+        <svg class="spark-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z"/><path d="M19 15l.7 2.3L22 18l-2.3.7L19 21l-.7-2.3L16 18l2.3-.7L19 15z"/></svg>
+        <label class="sr" for="ai-input">Describe a session</label>
+        <textarea id="ai-input" rows="2" placeholder="What are you running next?"></textarea>
+        <button type="submit" class="ai-send" aria-label="Build it"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+      </form>
+      <div class="ai-chips" id="ai-chips">
+        <button type="button">A 45-minute session to prioritise where AI could save us time</button>
+        <button type="button">A quarterly review for a client's leadership team</button>
+        <button type="button">A discovery workshop for a new finance system</button>
+      </div>
+      <div class="ai-out" id="ai-out" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── Meetings ───────────── -->
+<section class="section" id="meetings">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Meetings and calendar</p>
+      <h2>Link it to the Teams meeting and it helps fill itself in.</h2>
+      <p class="sub">Most sessions run inside a meeting, or have one booked around them. Interactables works with Microsoft Teams before, during and after.</p>
+    </div>
+    <div class="meet">
+      <ol class="phases reveal">
+        <li><span class="phase">Before</span><div><h3>Start from the invite</h3><p>Your next fortnight of client meetings appears on Home. Build one with the assistant and it starts from the client, the date, the attendees and the agenda.</p></div></li>
+        <li><span class="phase">During</span><div><h3>Suggestions for the slide on screen</h3><p>Type what you hear, or follow the meeting chat. The assistant suggests rows, notes, actions and open questions.</p></div></li>
+        <li><span class="phase">After</span><div><h3>The recap finds its place</h3><p>When the Teams recap or transcript is ready, the assistant proposes where each note and action belongs, with its source.</p></div></li>
+      </ol>
+      <div class="heard reveal" id="heard">
+        <div class="heard-head"><strong>Heard</strong><span>Suggested for "What steals your team's time?"</span></div>
+        <ul class="heard-list" id="heard-list"></ul>
+        <div class="heard-screen">
+          <span class="heard-screen-label">On screen</span>
+          <ul id="heard-on"><li class="empty">Nothing reaches the screen until you add it.</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── Confined by design ───────────── -->
+<section class="section section-tint" id="trust">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Safe to put in front of a client</p>
+      <h2>Built for other people's boardrooms.</h2>
+    </div>
+    <div class="trust">
+      <div class="reveal"><h3>Participants never need an account</h3><p>Room screens open from a view-only link. Phones vote with a code. Speaker notes and meeting notes never go to either.</p></div>
+      <div class="reveal"><h3>Anonymous votes</h3><p>No name, email or IP address is stored with a vote. A phone can change its vote but can't vote twice, and votes expire after 30 days.</p></div>
+      <div class="reveal"><h3>A person applies everything</h3><p>The assistant and the meeting suggestions propose. Nothing is saved, and nothing reaches the screen, until someone accepts it.</p></div>
+      <div class="reveal"><h3>Workspaces are kept apart</h3><p>Your clients, templates and sessions belong to your workspace. Isolation is enforced on every request and covered by tests.</p></div>
+      <div class="reveal"><h3>Your client's data is theirs</h3><p>Export everything held for a client, or delete it. An activity log records who did what.</p></div>
+      <div class="reveal"><h3>Connects to your tools</h3><p>Microsoft 365 for calendar, meetings and usage evidence. Webhooks for everything else. An MCP server so your AI assistant can answer "what happened in my last workshop?"</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── Pricing ───────────── -->
+<section class="section" id="pricing">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Pricing</p>
+      <h2>Pay per host. The room is free.</h2>
+      <p class="sub">Participants, room screens and viewers are unlimited on every plan. Design-partner pricing, excluding VAT.</p>
+    </div>
+    <div class="plans">
+      <article class="plan reveal">
+        <h3>Free</h3>
+        <p class="price"><strong>£0</strong></p>
+        <p class="plan-for">Try it with one client.</p>
+        <ul><li>1 host, 1 client</li><li>2 live sessions a month</li><li>Starter templates, live slides and PDF</li><li>Carries the Interactables mark</li></ul>
+        <a class="btn btn-ghost" href="mailto:hello@interactables.app?subject=Interactables%20Free">Request access</a>
+      </article>
+      <article class="plan reveal">
+        <h3>Pro</h3>
+        <p class="price"><strong>£29</strong><span>per host a month, billed yearly</span></p>
+        <p class="plan-for">For independent facilitators.</p>
+        <ul><li>Unlimited clients and sessions</li><li>Your brand and each client's</li><li>PowerPoint import and your own templates</li><li>Microsoft 365 evidence slides</li></ul>
+        <a class="btn btn-ghost" href="mailto:hello@interactables.app?subject=Interactables%20Pro">Request access</a>
+      </article>
+      <article class="plan plan-hot reveal">
+        <p class="plan-badge">For teams</p>
+        <h3>Team</h3>
+        <p class="price"><strong>£49</strong><span>per host a month, billed yearly · 3 hosts or more</span></p>
+        <p class="plan-for">For consultancies and MSPs.</p>
+        <ul><li>Everything in Pro</li><li>Roles, a shared template library and the activity log</li><li>Integrations and webhooks</li><li>The assistant, with a monthly allowance</li></ul>
+        <a class="btn btn-primary" href="mailto:hello@interactables.app?subject=Interactables%20Team">Request access</a>
+      </article>
+      <article class="plan reveal">
+        <h3>Enterprise</h3>
+        <p class="price"><strong>Let's talk</strong></p>
+        <p class="plan-for">For organisations with their own sign-in, security and procurement needs.</p>
+        <ul><li>Everything in Team</li><li>Security and data-protection review</li><li>Invoicing</li></ul>
+        <a class="btn btn-ghost" href="mailto:hello@interactables.app?subject=Interactables%20Enterprise">Talk to us</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── Closing ───────────── -->
+<section class="closing">
+  <div class="wrap">
+    <div class="closing-card reveal">
+      <img src="assets/brand/interactables-symbol.svg" alt="" width="96" height="98">
+      <h2>Run your next session with the room.</h2>
+      <p>Tell us what you run for clients. We'll set up a workspace and build your first interactable with you.</p>
+      <div class="hero-actions">
+        <a class="btn btn-white btn-lg" href="mailto:hello@interactables.app?subject=Interactables%20access">Request access</a>
+        <a class="btn btn-glass btn-lg" href="https://create.interactables.app/">Sign in</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-in">
+    <a class="logo" href="#top" aria-label="Interactables home">
+      <img class="logo-light" src="assets/brand/interactables-logo.svg" alt="Interactables" width="860" height="205">
+      <img class="logo-dark" src="assets/brand/interactables-logo-white.svg" alt="" width="860" height="205" aria-hidden="true">
+    </a>
+    <nav aria-label="Footer">
+      <a href="#demo">Live demo</a>
+      <a href="#slides">Live slides</a>
+      <a href="#pricing">Pricing</a>
+      <a href="https://create.interactables.app/">Sign in</a>
+      <a href="https://join.interactables.app/">Join a session</a>
+    </nav>
+    <p class="fine">© 2026 Interactables</p>
+  </div>
+</footer>
+
+<script src="assets/js/site.js" defer></script>
+</body>
+</html>
